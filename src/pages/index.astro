@@ -1,4 +1,5 @@
 ---
+import FullEditor from "../components/FullEditor";
 import EditorComponent from "../components/editor";
 ---
 
@@ -11,7 +12,7 @@ import EditorComponent from "../components/editor";
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
-		<EditorComponent client:idle />
+		<h1 class="text-2xl">Astro</h1>
+		<FullEditor client:idle />
 	</body>
 </html>

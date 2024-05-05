@@ -1,22 +1,42 @@
-import { useState } from "react";
+// Editor.tsx
+import YooptaEditor, { createYooptaEditor } from '@yoopta/editor';
+import ActionMenuList from '@yoopta/action-menu-list';
 
-export default function EditorComponent() {
-    const [editorState, setEditorState] = useState("");
+import { ActionNotionMenuExample } from './NotionActionMenuRender'
+import { useMemo } from 'react';
+import Paragraph from '@yoopta/paragraph';
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEditorState(e.target.value);
-        console.log(e.target.value)
-    };
+const TOOLS = {
+    ActionMenu: {
+        // This is what we need for custom rendering. You need care only about UI!
+        // Main logic is implemented inside ActionMenuList tool
+        render: ActionNotionMenuExample,
+        tool: ActionMenuList,
+    },
+    // ...other tools
+};
 
-    const onButtonClick = () => {
-        alert(editorState);
+const plugins = [
+    Paragraph,
+];
+
+function WithNotionExample() {
+    const editor = useMemo(() => createYooptaEditor(), []);
+
+    const postEditorValue = () => {
+        console.log(editor.getEditorValue());
     }
 
     return (
-        <>
-            <input type="text" value={editorState} onChange={handleInputChange} />
-            <button onClick={onButtonClick}>Print</button>
-            <p>{editorState}</p>
-        </>
+        <div>
+            <YooptaEditor
+                editor={editor}
+                tools={TOOLS} plugins={plugins}
+            />
+            <button onClick={postEditorValue}>Post value</button>
+        </div>
     );
 }
+
+export default WithNotionExample;
+
